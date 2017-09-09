@@ -21,21 +21,16 @@ namespace ECS
 	class RenderComponent : public Component
 	{
 	public:
-		RenderComponent(int shapeType) 
+		RenderComponent(std::string fileName) 
 		{
 			_pBlockLayer = LayerColor::create(Color4B(100, 100, 100, 100));
 			this->createBlock(4);
-			this->arrangeShape(shapeType);
 			
 		}
 		virtual ~RenderComponent()
 		{
-			for (auto iter : _renderVec)
-			{
-				iter->removeFromParent();
-			}
+			_pBlockLayer->removeAllChildren();
 			_pBlockLayer->removeFromParent();
-			_renderVec.clear();
 		}
 
 		bool isAdded() 
@@ -45,7 +40,7 @@ namespace ECS
 
 		void addToParent(Node *pParent)
 		{
-			
+			pParent->addChild(_pBlockLayer);
 		}
 
 	private:
@@ -54,45 +49,12 @@ namespace ECS
 			for (int i = 0; i < num; ++i)
 			{
 				Sprite *pBlock = Sprite::create("block1.png");
-				_renderVec.push_back(pBlock);
 				_pBlockLayer->addChild(pBlock);
-			}
-
-			if (_renderVec.size() > 0)
-			{
-				_size = _renderVec[0]->getContentSize();
-			}
-		}
-
-		void arrangeShape(int shapeType)	//ÅÅÁÐÐÎ×´
-		{
-			switch (shapeType)
-			{
-			case EntityTypeComponent::RECT_ANGLE:
-				//_pBlockLayer->setContentSize(Size(_size.width*4, _size.height));
-				_renderVec[0]->setPosition(Size(-(_size.width * 2 - _size.width / 2), _size.height / 2));
-				for (int i = 1; i < _renderVec.size(); ++i)
-				{
-					Vec2 pos = Vec2(_renderVec[i - 1]->getPositionX() + _size.width, _renderVec[i - 1]->getPositionY());
-					_renderVec[i]->setPosition(pos);
-				}
-
-				break;
-			case EntityTypeComponent::L_SHAPE:
-				break;
-			case EntityTypeComponent::SQUARE:
-				break;
-			case EntityTypeComponent::SOIL_SHAPE:
-				break;
-			case EntityTypeComponent::Z_SHAPE:
-				break;
 			}
 		}
 
 	private:
-		std::vector<Sprite *> _renderVec;
 		LayerColor *_pBlockLayer;
-		Size _size;
 	};
 
 	class PositionComponent : public Component
@@ -135,6 +97,18 @@ namespace ECS
 
 	private:
 		int _type;
+	};
+
+	class ShapeComponent : public Component
+	{
+	public:
+		ShapeComponent() {}
+
+		virtual ~ShapeComponent() {}
+
+	public:
+
+
 	};
 }
 

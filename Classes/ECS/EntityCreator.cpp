@@ -15,4 +15,8 @@ int EntityCreator::createBlock(int shapeType)
 {
 	int entityId = EntityManager::getInstance()->createEntity();
 
+	RenderComponent *pRender = new RenderComponent();
+	EntityManager::getInstance()->addComponent(pRender, RENDER_COMPONENT, entityId);
+
+
 }
