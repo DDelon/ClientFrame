@@ -6,7 +6,9 @@ USING_NS_CC;
 
 #define RENDER_COMPONENT		(1 << 1)
 #define POSITION_COMPONENT		(1 << 2)
-#define ENTITY_TYPE_COMPONENT	(1 << 3)
+#define SPEED_COMPONENT			(1 << 3)
+#define TIME_COMPONENT			(1 << 4)
+#define ENTITY_TYPE_COMPONENT	(1 << 5)
 
 namespace ECS
 {
@@ -21,39 +23,10 @@ namespace ECS
 	class RenderComponent : public Component
 	{
 	public:
-		RenderComponent(std::string fileName) 
-		{
-			_pBlockLayer = LayerColor::create(Color4B(100, 100, 100, 100));
-			this->createBlock(4);
-			
-		}
-		virtual ~RenderComponent()
-		{
-			_pBlockLayer->removeAllChildren();
-			_pBlockLayer->removeFromParent();
-		}
+		RenderComponent() {}
+		~RenderComponent() { }
 
-		bool isAdded() 
-		{
-			return !(_pBlockLayer->getParent() == nullptr);
-		}
-
-		void addToParent(Node *pParent)
-		{
-			pParent->addChild(_pBlockLayer);
-		}
-
-	private:
-		void createBlock(int num)
-		{
-			for (int i = 0; i < num; ++i)
-			{
-				Sprite *pBlock = Sprite::create("block1.png");
-				_pBlockLayer->addChild(pBlock);
-			}
-		}
-
-	private:
+	public:
 		LayerColor *_pBlockLayer;
 	};
 
@@ -61,11 +34,7 @@ namespace ECS
 	{
 	public:
 		PositionComponent() {}
-		virtual ~PositionComponent()
-		{
-			_x = 0.0f;
-			_y = 0.0f;
-		}
+		~PositionComponent() {}
 
 	public:
 		float _x;
@@ -75,18 +44,31 @@ namespace ECS
 	class SpeedComponent : public Component
 	{
 	public:
-		SpeedComponent();
-		virtual ~SpeedComponent();
+		SpeedComponent() {}
+		~SpeedComponent() {}
 
 	public:
-		int _speed;
+		float _speedX;
+		float _speedY;
+	};
+
+	class TimeComponent : public Component
+	{
+	public:
+		TimeComponent(float time) : _timeConst(time), _isArrival(true) {}
+		~TimeComponent() {}
+
+	public:
+		const float _timeConst;
+		bool _isArrival;
+
 	};
 
 	class EntityTypeComponent : public Component
 	{
 	public:
 		EntityTypeComponent() {}
-		virtual ~EntityTypeComponent() {}
+		~EntityTypeComponent() {}
 
 	public:
 		static const unsigned int RECT_ANGLE = (1 << 1);
@@ -95,20 +77,8 @@ namespace ECS
 		static const unsigned int SOIL_SHAPE = (1 << 4);
 		static const unsigned int Z_SHAPE = (1 << 5);
 
-	private:
+	public:
 		int _type;
-	};
-
-	class ShapeComponent : public Component
-	{
-	public:
-		ShapeComponent() {}
-
-		virtual ~ShapeComponent() {}
-
-	public:
-
-
 	};
 }
 

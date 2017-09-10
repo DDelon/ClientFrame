@@ -10,13 +10,15 @@ public:
 public:
 	static EntityManager *getInstance();
 
-	EntityCreator *getEntityCreator() { return _pCreator; }
+	static unsigned int getBitOne(unsigned int val, unsigned int number, int index);
+
+	void registerComponents(int num);
 
 	int getEntitySize() { return _entityFlagVec.size(); }
 
-	int getEntityFlag(int entityId) { return _entityFlagVec[entityId]; }
+	unsigned int getEntityFlag(int entityId) { return _entityFlagVec[entityId]; }
 
-	int createEntity();
+	unsigned int createEntity();
 
 	void removeEntity(int entityId);
 
@@ -24,7 +26,7 @@ public:
 
 	void removeComponent(int componentType, int entityId);
 
-	ECS::Component *getEntity(int componentType, int entityId);
+	ECS::Component *getEntityComponent(int componentType, int entityId);
 
 private:
 	EntityManager();
@@ -32,6 +34,7 @@ private:
 
 private:
 	static EntityManager *_pInstance;
+	
 
 	std::vector<int> _entityFlagVec;
 	std::vector<componentVec> _componentContainer;

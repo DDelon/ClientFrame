@@ -1,6 +1,8 @@
 #ifndef __RENDER_SYSTEM_H__
 #define __RENDER_SYSTEM_H__
 #include "System.h"
+#include "cocos2d.h"
+USING_NS_CC;
 
 class RenderSystem : public System
 {

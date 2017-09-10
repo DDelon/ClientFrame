@@ -25,17 +25,19 @@ void RenderSystem::excute(float dt)
 	for (int i = 0; i < size; ++i)
 	{
 		int flag = EntityManager::getInstance()->getEntityFlag(i);
-		if (flag & (RENDER_COMPONENT | POSITION_COMPONENT) == (RENDER_COMPONENT | POSITION_COMPONENT))
+		if ((flag & (RENDER_COMPONENT | POSITION_COMPONENT)) == (RENDER_COMPONENT | POSITION_COMPONENT))
 		{
-			RenderComponent *pRender = static_cast<RenderComponent *>(EntityManager::getInstance()->getEntity(RENDER_COMPONENT, i));
-			PositionComponent *pPosition = static_cast<PositionComponent *>(EntityManager::getInstance()->getEntity(POSITION_COMPONENT, i));
+			RenderComponent *pRender = static_cast<RenderComponent *>(EntityManager::getInstance()->getEntityComponent(RENDER_COMPONENT, i));
+			PositionComponent *pPosition = static_cast<PositionComponent *>(EntityManager::getInstance()->getEntityComponent(POSITION_COMPONENT, i));
 
-			if (pRender->_pRender->getParent() == nullptr)
+			if (pRender->_pBlockLayer->getParent() == nullptr)
 			{
-				_pLayer->addChild(pRender->_pRender);
+
+				_pLayer->addChild(pRender->_pBlockLayer);
+				pRender->_pBlockLayer->release();
 			}
 
-			pRender->_pRender->setPosition(Vec2(pPosition->_x, pPosition->_y));
+			pRender->_pBlockLayer->setPosition(Vec2(pPosition->_x, pPosition->_y));
 		}
 	}
 }

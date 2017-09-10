@@ -8,6 +8,11 @@ public:
 	~EntityCreator();
 
 public:
-	static int createBlock(int shapeType);
+	//长方形
+	static unsigned int createRectShape();
+	//正方形
+	static unsigned int createSquare();
+	//L形
+	static unsigned int createLShape();
 };
 #endif

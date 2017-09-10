@@ -12,12 +12,17 @@ public:
 	void addSystem(System *pSystem);
 
 	void update(float dt);
+
+	int getFrame() { return _frame; }
+
 private:
 	SystemManager();
 	~SystemManager();
 
 private:
 	static SystemManager *_pInstance;
+
+	int _frame;
 
 	std::vector<System *> _systemVec;
 };
