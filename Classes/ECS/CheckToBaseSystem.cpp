@@ -63,7 +63,7 @@ void CheckToBaseSystem::excute(float dt)
 			{
 				Vec2 worldPos = iter->convertToWorldSpace(iter->getAnchorPointInPoints());
 				Vec2 rowCol = CheckToBaseSystem::convertToRowCol(worldPos);
-				log("world position x:%f position y:%f convert row:%f col:%f", worldPos.x, worldPos.y, rowCol.x, rowCol.y);
+				//log("world position x:%f position y:%f convert row:%f col:%f", worldPos.x, worldPos.y, rowCol.x, rowCol.y);
 				int block = GameInfo::getInstance()->getBlock(rowCol.x, rowCol.y);
 				if (block != NULL_BLOCK)
 				{

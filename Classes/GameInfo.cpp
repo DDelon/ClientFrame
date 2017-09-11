@@ -37,20 +37,24 @@ void GameInfo::initMap()
 
 void GameInfo::setBlock(int row, int col, int blockType)
 {
-	assert(row < ROW);
-	assert(row >= 0);
-	assert(col >= 0);
-	assert(col < COL);
+	//assert(row < ROW);
+	//assert(row >= 0);
+	//assert(col >= 0);
+	//assert(col < COL);
+	if ((row >= ROW) || (row < 0) || (col < 0) || (col >= COL))
+		return ;
 
 	_map[row][col] = blockType;
 }
 
 int GameInfo::getBlock(int row, int col)
 {
-	assert(row < ROW);
-	assert(row >= 0);
-	assert(col >= 0);
-	assert(col < COL);
+	//assert(row < ROW);
+	//assert(row >= 0);
+	//assert(col >= 0);
+	//assert(col < COL);
+	if ((row >= ROW) || (row < 0) || (col < 0) || (col >= COL))
+		return 0;
 
 	return _map[row][col];
 }

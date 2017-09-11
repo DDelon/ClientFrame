@@ -19,6 +19,7 @@ unsigned int EntityCreator::createRectShape()
 	//渲染组件
 	RenderComponent *pRender = new RenderComponent();
 	pRender->_pBlockLayer = LayerColor::create(Color4B(100, 100, 100, 100));
+	pRender->_pBlockLayer->setPosition(Vec2(winSize.width / 2, winSize.height));
 	pRender->_pBlockLayer->retain();
 
 	//创建4个块
@@ -75,6 +76,7 @@ unsigned int EntityCreator::createSquare()
 	//渲染组件
 	RenderComponent *pRender = new RenderComponent();
 	pRender->_pBlockLayer = LayerColor::create(Color4B(100, 100, 100, 100));
+	pRender->_pBlockLayer->setPosition(Vec2(winSize.width / 2, winSize.height));
 	pRender->_pBlockLayer->retain();
 
 	//创建4个块
