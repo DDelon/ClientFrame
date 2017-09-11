@@ -1,5 +1,17 @@
 #include "HelloWorldScene.h"
+#include "ui/CocosGUI.h"
 #include "SimpleAudioEngine.h"
+#include "ECS/SystemManager.h"
+#include "ECS/TimeSystem.h"
+#include "ECS/MoveSystem.h"
+#include "ECS/RenderSystem.h"
+#include "ECS/EntityCreator.h"
+#include "ECS/EntityManager.h"
+#include "ECS/InputSystem.h"
+#include "ECS/CheckToBaseSystem.h"
+#include "ECS/CreatorSystem.h"
+#include "ECS/WriteToMapSystem.h"
+#include "GameInfo.h"
 
 USING_NS_CC;
 
@@ -31,38 +43,40 @@ bool HelloWorld::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
+	EntityManager::getInstance()->registerComponents(7);
 
-    // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
-    
-    closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-                                origin.y + closeItem->getContentSize().height/2));
+	//EntityCreator::createRectShape();
+	EntityCreator::createSquare();
+	//InputSystem->MoveSystem->CheckToBaseSystem->WriteToMapSystem->TimeSystem->RenderSystem->CreatorSystem
+	//
+	InputSystem *pInputSys = new InputSystem(1);
+	SystemManager::getInstance()->addSystem(pInputSys);
 
-    // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
+	MoveSystem *pMoveSys = new MoveSystem(2);
+	SystemManager::getInstance()->addSystem(pMoveSys);
+
+	CheckToBaseSystem *pCheckSys = new CheckToBaseSystem(3);
+	SystemManager::getInstance()->addSystem(pCheckSys);
+
+	WriteToMapSystem *pWriteToMapSys = new WriteToMapSystem(4);
+	SystemManager::getInstance()->addSystem(pWriteToMapSys);
+
+	TimeSystem *pTimeSys = new TimeSystem(5);
+	SystemManager::getInstance()->addSystem(pTimeSys);
+
+	RenderSystem *pRenderSys = new RenderSystem(6, this);
+	SystemManager::getInstance()->addSystem(pRenderSys);
+
+	CreatorSystem *pCreatorSys = new CreatorSystem(7);
+	SystemManager::getInstance()->addSystem(pCreatorSys);
+
+
 
     /////////////////////////////
     // 3. add your codes below...
 
     // add a label shows "Hello World"
     // create and initialize a label
-    
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    
-    // position the label on the center of the screen
-    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
-
-    // add the label as a child to this layer
-    this->addChild(label, 1);
 
     // add "HelloWorld" splash screen"
     auto sprite = Sprite::create("HelloWorld.png");
@@ -72,8 +86,105 @@ bool HelloWorld::init()
 
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
+
+	this->scheduleUpdate();
+
+	ui::Button *pLeft = static_cast<ui::Button *>(ui::Button::createInstance());
+	pLeft->setTouchEnabled(true);
+	pLeft->setTitleFontSize(25);
+	pLeft->setTitleText("Left");
+	pLeft->setPosition(Vec2(50, 100));
+	pLeft->addTouchEventListener([=](Ref *pSender, ui::Widget::TouchEventType touchEvt){
+		if (touchEvt == ui::Widget::TouchEventType::BEGAN)
+		{
+			GameInfo::getInstance()->setKeyCode(ECS::DirectionComponent::LEFT);
+		}
+		else if (touchEvt == ui::Widget::TouchEventType::ENDED)
+		{
+			GameInfo::getInstance()->setKeyCode(ECS::DirectionComponent::NONE);
+		}
+	});
+	this->addChild(pLeft);
+
+	ui::Button *pRight = static_cast<ui::Button *>(ui::Button::createInstance());
+	pRight->setTouchEnabled(true);
+	pRight->setTitleFontSize(25);
+	pRight->setTitleText("Right");
+	pRight->setPosition(Vec2(150, 100));
+	pRight->addTouchEventListener([=](Ref *pSender, ui::Widget::TouchEventType touchEvt){
+		if (touchEvt == ui::Widget::TouchEventType::BEGAN)
+		{
+			GameInfo::getInstance()->setKeyCode(ECS::DirectionComponent::RIGHT);
+		}
+		else if (touchEvt == ui::Widget::TouchEventType::ENDED)
+		{
+			GameInfo::getInstance()->setKeyCode(ECS::DirectionComponent::NONE);
+		}
+	});
+	this->addChild(pRight);
+
+	ui::Button *pUp = static_cast<ui::Button *>(ui::Button::createInstance());
+	pUp->setTouchEnabled(true);
+	pUp->setTitleFontSize(25);
+	pUp->setTitleText("UP");
+	pUp->setPosition(Vec2(100, 150));
+	pUp->addTouchEventListener([=](Ref *pSender, ui::Widget::TouchEventType touchEvt){
+		if (touchEvt == ui::Widget::TouchEventType::BEGAN)
+		{
+			GameInfo::getInstance()->setKeyCode(ECS::DirectionComponent::UP);
+		}
+		else if (touchEvt == ui::Widget::TouchEventType::ENDED)
+		{
+			GameInfo::getInstance()->setKeyCode(ECS::DirectionComponent::NONE);
+		}
+	});
+	this->addChild(pUp);
+
+	ui::Button *pDown = static_cast<ui::Button *>(ui::Button::createInstance());
+	pDown->setTouchEnabled(true);
+	//pDown->setScale9Enabled(true);
+	pDown->setTitleFontSize(25);
+	pDown->setTitleText("Left");
+	pDown->setPosition(Vec2(100, 50));
+	pDown->addTouchEventListener([=](Ref *pSender, ui::Widget::TouchEventType touchEvt){
+		if (touchEvt == ui::Widget::TouchEventType::BEGAN)
+		{
+			GameInfo::getInstance()->setKeyCode(ECS::DirectionComponent::DOWN);
+		}
+		else if (touchEvt == ui::Widget::TouchEventType::ENDED)
+		{
+			GameInfo::getInstance()->setKeyCode(ECS::DirectionComponent::NONE);
+		}
+	});
+	this->addChild(pDown);
+
+	ui::Button *pPause = static_cast<ui::Button *>(ui::Button::createInstance());
+	pPause->setTouchEnabled(true);
+	pPause->setTitleFontSize(25);
+	pPause->setTitleText("Pause");
+	pPause->setPosition(Vec2(540, 50));
+	pPause->addTouchEventListener([=](Ref *pSender, ui::Widget::TouchEventType touchEvt){
+		if (touchEvt == ui::Widget::TouchEventType::BEGAN)
+		{
+			SystemManager::getInstance()->setPause(!SystemManager::getInstance()->isPause());
+		}
+		else if (touchEvt == ui::Widget::TouchEventType::ENDED)
+		{
+			
+		}
+	});
+	this->addChild(pPause);
+
+
+
+	
     
     return true;
+}
+
+void HelloWorld::update(float dt)
+{
+	SystemManager::getInstance()->update(dt);
 }
 
 

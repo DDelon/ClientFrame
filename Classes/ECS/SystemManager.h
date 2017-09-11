@@ -15,6 +15,10 @@ public:
 
 	int getFrame() { return _frame; }
 
+	void setPause(bool isPause) { _isPause = isPause; }
+
+	bool isPause() { return _isPause; }
+
 private:
 	SystemManager();
 	~SystemManager();
@@ -22,9 +26,11 @@ private:
 private:
 	static SystemManager *_pInstance;
 
+	std::vector<System *> _systemVec;
+
 	int _frame;
 
-	std::vector<System *> _systemVec;
+	bool _isPause;
 };
 
 #endif

@@ -46,8 +46,8 @@ unsigned int EntityCreator::createRectShape()
 
 	//速度组件
 	SpeedComponent *pSpeed = new SpeedComponent();
-	pSpeed->_speedX = 0;
-	pSpeed->_speedY = -size.height;
+	pSpeed->_speedX = size.width;
+	pSpeed->_speedY = size.height;
 	EntityManager::getInstance()->addComponent(pSpeed, SPEED_COMPONENT, entityId);
 
 	//计时组件
@@ -58,6 +58,11 @@ unsigned int EntityCreator::createRectShape()
 	EntityTypeComponent *pEntityType = new EntityTypeComponent();
 	pEntityType->_type = EntityTypeComponent::RECT_ANGLE;
 	EntityManager::getInstance()->addComponent(pEntityType, ENTITY_TYPE_COMPONENT, entityId);
+
+	//方向组件
+	DirectionComponent *pDirection = new DirectionComponent();
+	pDirection->_direction = DirectionComponent::DOWN;
+	EntityManager::getInstance()->addComponent(pDirection, DIRECTION_COMPONENT, entityId);
 
 	return entityId;
 }
@@ -80,6 +85,7 @@ unsigned int EntityCreator::createSquare()
 	}
 	Vector<Node *> childrenVec = pRender->_pBlockLayer->getChildren();
 	Size size = childrenVec.at(0)->getContentSize();
+	log("create square size width:%f height:%f", size.width, size.height);
 	//排列形状
 	childrenVec.at(0)->setPosition(Vec2(-size.width / 2, size.height / 2));
 	childrenVec.at(1)->setPosition(Vec2(size.width / 2, size.height / 2));
@@ -97,8 +103,8 @@ unsigned int EntityCreator::createSquare()
 
 	//速度组件
 	SpeedComponent *pSpeed = new SpeedComponent();
-	pSpeed->_speedX = 0;
-	pSpeed->_speedY = -size.height;
+	pSpeed->_speedX = size.width;
+	pSpeed->_speedY = size.height;
 	EntityManager::getInstance()->addComponent(pSpeed, SPEED_COMPONENT, entityId);
 
 	//计时组件
@@ -109,6 +115,17 @@ unsigned int EntityCreator::createSquare()
 	EntityTypeComponent *pEntityType = new EntityTypeComponent();
 	pEntityType->_type = EntityTypeComponent::SQUARE;
 	EntityManager::getInstance()->addComponent(pEntityType, ENTITY_TYPE_COMPONENT, entityId);
+
+	//方向组件
+	DirectionComponent *pDirection = new DirectionComponent();
+	pDirection->_direction = DirectionComponent::DOWN;
+	EntityManager::getInstance()->addComponent(pDirection, DIRECTION_COMPONENT, entityId);
+
+	//状态组件
+	StatusComponent *pStatus = new StatusComponent();
+	pStatus->_status = StatusComponent::FALL;
+	EntityManager::getInstance()->addComponent(pStatus, STATUS_COMPONENT, entityId);
+
 
 	return entityId;
 }

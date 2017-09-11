@@ -32,6 +32,7 @@ void TimeSystem::excute(float dt)
 				pRender->_pBlockLayer->runAction(Sequence::create(DelayTime::create(pTime->_timeConst), CallFuncN::create([=](Ref *pSender){
 					pTime->_isArrival = true;
 				}), nullptr));
+				pTime->_isArrival = false;
 			}
 		}
 	}

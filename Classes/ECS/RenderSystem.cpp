@@ -32,7 +32,6 @@ void RenderSystem::excute(float dt)
 
 			if (pRender->_pBlockLayer->getParent() == nullptr)
 			{
-
 				_pLayer->addChild(pRender->_pBlockLayer);
 				pRender->_pBlockLayer->release();
 			}

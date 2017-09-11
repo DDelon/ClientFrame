@@ -3,6 +3,7 @@
 SystemManager::SystemManager()
 {
 	_frame = 0;
+	_isPause = false;
 }
 
 SystemManager::~SystemManager()
@@ -34,6 +35,10 @@ void SystemManager::addSystem(System *pSystem)
 
 void SystemManager::update(float dt)
 {
+	if (_isPause)
+	{
+		return;
+	}
 	++_frame;
 	for (auto iter : _systemVec)
 	{
