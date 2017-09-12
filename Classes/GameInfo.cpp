@@ -54,7 +54,7 @@ int GameInfo::getBlock(int row, int col)
 	//assert(col >= 0);
 	//assert(col < COL);
 	if ((row >= ROW) || (row < 0) || (col < 0) || (col >= COL))
-		return 0;
+		return NULL_BLOCK;
 
 	return _map[row][col];
 }

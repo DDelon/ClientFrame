@@ -11,6 +11,7 @@
 #include "ECS/CheckToBaseSystem.h"
 #include "ECS/CreatorSystem.h"
 #include "ECS/WriteToMapSystem.h"
+#include "ECS/ClearMapSystem.h"
 #include "GameInfo.h"
 
 USING_NS_CC;
@@ -47,7 +48,7 @@ bool HelloWorld::init()
 
 	//EntityCreator::createRectShape();
 	EntityCreator::createSquare();
-	//InputSystem->MoveSystem->CheckToBaseSystem->WriteToMapSystem->TimeSystem->RenderSystem->CreatorSystem
+	//InputSystem->MoveSystem->CheckToBaseSystem->WriteToMapSystem->TimeSystem->RenderSystem->CreatorSystem->RemoveSystem
 	//
 	InputSystem *pInputSys = new InputSystem(1);
 	SystemManager::getInstance()->addSystem(pInputSys);
@@ -58,16 +59,19 @@ bool HelloWorld::init()
 	CheckToBaseSystem *pCheckSys = new CheckToBaseSystem(3);
 	SystemManager::getInstance()->addSystem(pCheckSys);
 
-	WriteToMapSystem *pWriteToMapSys = new WriteToMapSystem(4);
+	ClearMapSystem *pClearMapSys = new ClearMapSystem(4);
+	SystemManager::getInstance()->addSystem(pClearMapSys);
+
+	WriteToMapSystem *pWriteToMapSys = new WriteToMapSystem(5);
 	SystemManager::getInstance()->addSystem(pWriteToMapSys);
 
-	TimeSystem *pTimeSys = new TimeSystem(5);
+	TimeSystem *pTimeSys = new TimeSystem(6);
 	SystemManager::getInstance()->addSystem(pTimeSys);
 
-	RenderSystem *pRenderSys = new RenderSystem(6, this);
+	RenderSystem *pRenderSys = new RenderSystem(7, this);
 	SystemManager::getInstance()->addSystem(pRenderSys);
 
-	CreatorSystem *pCreatorSys = new CreatorSystem(7);
+	CreatorSystem *pCreatorSys = new CreatorSystem(8);
 	SystemManager::getInstance()->addSystem(pCreatorSys);
 
 
@@ -144,7 +148,7 @@ bool HelloWorld::init()
 	pDown->setTouchEnabled(true);
 	//pDown->setScale9Enabled(true);
 	pDown->setTitleFontSize(25);
-	pDown->setTitleText("Left");
+	pDown->setTitleText("Down");
 	pDown->setPosition(Vec2(100, 50));
 	pDown->addTouchEventListener([=](Ref *pSender, ui::Widget::TouchEventType touchEvt){
 		if (touchEvt == ui::Widget::TouchEventType::BEGAN)

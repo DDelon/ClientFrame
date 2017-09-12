@@ -16,7 +16,12 @@ WriteToMapSystem::~WriteToMapSystem()
 
 void WriteToMapSystem::enter()
 {
-	int size = EntityManager::getInstance()->getEntitySize();
+	
+}
+
+void WriteToMapSystem::excute(float dt)
+{
+	int size = EntityManager::getInstance()->getEntitySize()-1;
 
 	for (int i = size; i >= 0; --i)
 	{
@@ -36,7 +41,7 @@ void WriteToMapSystem::enter()
 					{
 						Vec2 worldPos = iter->convertToWorldSpace(iter->getAnchorPointInPoints());
 						Vec2 rowCol = CheckToBaseSystem::convertToRowCol(worldPos);
-						GameInfo::getInstance()->setBlock(rowCol.x, rowCol.y, FULL_BLOCK);
+						GameInfo::getInstance()->setBlock(rowCol.x, rowCol.y, WAIT_FULL_BLOCK);
 					}
 				}
 
@@ -59,11 +64,6 @@ void WriteToMapSystem::enter()
 			}
 		}
 	}
-}
-
-void WriteToMapSystem::excute(float dt)
-{
-
 }
 
 void WriteToMapSystem::exit()

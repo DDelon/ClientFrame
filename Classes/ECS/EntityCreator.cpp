@@ -1,6 +1,7 @@
 #include "EntityCreator.h"
 #include "Component.h"
 #include "EntityManager.h"
+#include "GameInfo.h"
 using namespace ECS;
 
 EntityCreator::EntityCreator()
@@ -64,6 +65,11 @@ unsigned int EntityCreator::createRectShape()
 	DirectionComponent *pDirection = new DirectionComponent();
 	pDirection->_direction = DirectionComponent::DOWN;
 	EntityManager::getInstance()->addComponent(pDirection, DIRECTION_COMPONENT, entityId);
+
+	//状态组件
+	StatusComponent *pStatus = new StatusComponent();
+	pStatus->_status = StatusComponent::FALL;
+	EntityManager::getInstance()->addComponent(pStatus, STATUS_COMPONENT, entityId);
 
 	return entityId;
 }
@@ -135,4 +141,50 @@ unsigned int EntityCreator::createSquare()
 unsigned int EntityCreator::createLShape()
 {
 	return 0;
+}
+
+unsigned int EntityCreator::createBlock(int row, int col)
+{
+
+	int entityId = EntityManager::getInstance()->createEntity();
+	//渲染组件
+	SpriteRenderComponent *pRender = new SpriteRenderComponent();
+	pRender->_pSprite = Sprite::create("block4.png");
+	pRender->_pSprite->retain();
+	Size size = pRender->_pSprite->getContentSize();
+	EntityManager::getInstance()->addComponent(pRender, SPRITERENDER_COMPONENT, entityId);
+
+
+	//位置组件
+	PositionComponent *pPosition = new PositionComponent();
+	pPosition->_x = col*BLOCK_WIDTH - BLOCK_WIDTH/2;
+	pPosition->_y = row*BLOCK_HEIGHT - BLOCK_HEIGHT/2;
+	EntityManager::getInstance()->addComponent(pPosition, POSITION_COMPONENT, entityId);
+
+	//速度组件
+	SpeedComponent *pSpeed = new SpeedComponent();
+	pSpeed->_speedX = size.width;
+	pSpeed->_speedY = size.height;
+	EntityManager::getInstance()->addComponent(pSpeed, SPEED_COMPONENT, entityId);
+
+	//计时组件
+	TimeComponent *pTime = new TimeComponent(0.8);
+	EntityManager::getInstance()->addComponent(pTime, TIME_COMPONENT, entityId);
+
+	//类型组件
+	EntityTypeComponent *pEntityType = new EntityTypeComponent();
+	pEntityType->_type = EntityTypeComponent::SQUARE;
+	EntityManager::getInstance()->addComponent(pEntityType, ENTITY_TYPE_COMPONENT, entityId);
+
+	//方向组件
+	DirectionComponent *pDirection = new DirectionComponent();
+	pDirection->_direction = DirectionComponent::DOWN;
+	EntityManager::getInstance()->addComponent(pDirection, DIRECTION_COMPONENT, entityId);
+
+	//状态组件
+	StatusComponent *pStatus = new StatusComponent();
+	pStatus->_status = StatusComponent::FALL;
+	EntityManager::getInstance()->addComponent(pStatus, STATUS_COMPONENT, entityId);
+
+	return entityId;
 }

@@ -5,12 +5,13 @@
 USING_NS_CC;
 
 #define RENDER_COMPONENT		(1 << 1)
-#define POSITION_COMPONENT		(1 << 2)
-#define SPEED_COMPONENT			(1 << 3)
-#define TIME_COMPONENT			(1 << 4)
-#define DIRECTION_COMPONENT		(1 << 5)
-#define STATUS_COMPONENT		(1 << 6)
-#define ENTITY_TYPE_COMPONENT	(1 << 7)
+#define SPRITERENDER_COMPONENT	(1 << 2)
+#define POSITION_COMPONENT		(1 << 3)
+#define SPEED_COMPONENT			(1 << 4)
+#define TIME_COMPONENT			(1 << 5)
+#define DIRECTION_COMPONENT		(1 << 6)
+#define STATUS_COMPONENT		(1 << 7)
+#define ENTITY_TYPE_COMPONENT	(1 << 8)
 
 namespace ECS
 {
@@ -26,10 +27,26 @@ namespace ECS
 	{
 	public:
 		RenderComponent() {}
-		~RenderComponent() { }
+		~RenderComponent() 
+		{
 
+			_pBlockLayer->removeFromParent();
+		}
 	public:
 		LayerColor *_pBlockLayer;
+	};
+
+	class SpriteRenderComponent : public Component
+	{
+	public:
+		SpriteRenderComponent() {}
+		~SpriteRenderComponent() 
+		{
+			_pSprite->removeFromParent();
+		}
+
+	public:
+		Sprite *_pSprite;
 	};
 
 	class PositionComponent : public Component

@@ -22,7 +22,7 @@ void CreatorSystem::excute(float dt)
 	int size = EntityManager::getInstance()->getEntitySize();
 	if (size == 0)
 	{
-		EntityCreator::createSquare();
+		EntityCreator::createRectShape();
 	}
 }
 

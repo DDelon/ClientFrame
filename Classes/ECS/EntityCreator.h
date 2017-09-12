@@ -14,5 +14,8 @@ public:
 	static unsigned int createSquare();
 	//L形
 	static unsigned int createLShape();
+
+	//创建单个块
+	static unsigned int createBlock(int row, int col);
 };
 #endif

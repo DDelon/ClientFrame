@@ -57,13 +57,9 @@ void MoveSystem::excute(float dt)
 				pPosition->_y -= pSpeed->_speedY;
 				log("block down:%f", pPosition->_y);
 			}
-
-			
-			
-			
-
 		}
 	}
+
 }
 
 void MoveSystem::exit()
